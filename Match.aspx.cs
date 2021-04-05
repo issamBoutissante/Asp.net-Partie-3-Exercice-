@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,41 +12,68 @@ namespace Exercice
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (ViewState["matchs"] == null)
+            {
+                ViewState["matchs"] = new List<ClassMatch>()
+                {
+                    new ClassMatch(new DateTime(),"selectionner le match"),
+                    new ClassMatch(new DateTime(2021, 02, 02), "maroc vs usa"),
+                    new ClassMatch(new DateTime(2021, 02, 22), "france vs canada")
+                };
+            }
+            
+            if (!IsPostBack)
+            {
+                List<ClassMatch> matches = (List<ClassMatch>)ViewState["matchs"];
+                matches.ForEach((matche) => DropDownList1.Items.Add(matche.NomMatch));
+            }
         }
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Calendar1.Visible = true;
-            switch (((DropDownList)DropDownList1).SelectedIndex)
+            if (DropDownList1.SelectedIndex == 0)
             {
-                case 1:
-                    Calendar1.SelectedDate = new DateTime(2021, 02, 20);
-                    Calendar1.VisibleDate = Calendar1.SelectedDate;
-                    Label1.Text=$"Match : {DropDownList1.Text}<br/>Le : {Calendar1.SelectedDate}";
-                    break;
-                case 2:
-                    Calendar1.SelectedDate = new DateTime(2021, 03, 20);
-                    Calendar1.VisibleDate = Calendar1.SelectedDate;
-                    Label1.Text = $"Match : {DropDownList1.Text}<br/>Le : {Calendar1.SelectedDate}";
-                    break;
-                    Calendar1.SelectedDate = new DateTime(2021, 04, 20);
-                    Calendar1.VisibleDate = Calendar1.SelectedDate;
-                    Label1.Text = $"Match : {DropDownList1.Text}<br/>Le : {Calendar1.SelectedDate}";
-                case 3:
-                    break;
-                default:
-                    Calendar1.Visible = false;
-                    Label1.Text = "aucun match selectione";
-                    break;
+                Calendar1.Visible = false;
+                return;
             }
+            Calendar1.Visible = true;
+            Afficher();
         }
-
+        protected void Afficher()
+        {
+            List<ClassMatch> matches = (List<ClassMatch>)ViewState["matchs"];
+            ClassMatch matche=matches[DropDownList1.SelectedIndex];
+            Calendar1.SelectedDate = matche.Date;
+            Calendar1.VisibleDate = Calendar1.SelectedDate;
+            Label1.Text = $"Match : {matche.NomMatch}<br/>Le : {Calendar1.SelectedDate}";
+        }
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Calendar1.SelectedDate = new DateTime(2023, 10, 02);
-            Calendar1.VisibleDate = Calendar1.SelectedDate;
-            Label1.Text = $"Match : {DropDownList1.Text}<br/>Le : {Calendar1.SelectedDate}";
+            if (ViewState["Date"] == null) return;
+            ((List<ClassMatch>)ViewState["matchs"])[DropDownList1.SelectedIndex].Date = (DateTime)ViewState["Date"];
+            Afficher();
+        }
+
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
+        {
+            ViewState["Date"] = Calendar1.SelectedDate;
+        }
+    }
+    [Serializable]
+    class ClassMatch
+    {
+        DateTime _date;
+        string _nomMatch;
+        public DateTime Date { get=>_date; set=>_date=value; }
+        public string NomMatch { get => _nomMatch; set => _nomMatch = value; }
+        public ClassMatch()
+        {
+
+        }
+        public ClassMatch(DateTime date,string nom_match)
+        {
+            this._date = date;
+            this._nomMatch = nom_match;
         }
     }
 }

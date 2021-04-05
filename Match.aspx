@@ -12,12 +12,9 @@
             <h2>Calenderier</h2>
             <h2>Botola pro 2021</h2>
             <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
-                <asp:ListItem>selectionez match</asp:ListItem>
-                <asp:ListItem>Maroc VS USA</asp:ListItem>
-                <asp:ListItem>Canada Vs Brazil</asp:ListItem>
             </asp:DropDownList>
         </div>
-        <asp:Calendar ID="Calendar1" runat="server" Visible="False"></asp:Calendar>
+        <asp:Calendar ID="Calendar1" runat="server" Visible="False" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
         <asp:Label ID="Label1" runat="server"></asp:Label>
         <h3>Changer la date et click sur le button pour le modifier</h3>
         <p>
