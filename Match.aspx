@@ -14,7 +14,7 @@
             <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
             </asp:DropDownList>
         </div>
-        <asp:Calendar ID="Calendar1" runat="server" Visible="False" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
+        <asp:Calendar ID="Calendar1" runat="server" Visible="False"></asp:Calendar>
         <asp:Label ID="Label1" runat="server"></asp:Label>
         <h3>Changer la date et click sur le button pour le modifier</h3>
         <p>

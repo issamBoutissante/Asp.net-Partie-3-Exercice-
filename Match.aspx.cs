@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace Exercice
 {
@@ -49,14 +44,8 @@ namespace Exercice
         }
         protected void Button1_Click(object sender, EventArgs e)
         {
-            if (ViewState["Date"] == null) return;
-            ((List<ClassMatch>)ViewState["matchs"])[DropDownList1.SelectedIndex].Date = (DateTime)ViewState["Date"];
+            ((List<ClassMatch>)ViewState["matchs"])[DropDownList1.SelectedIndex].Date = Calendar1.SelectedDate;
             Afficher();
-        }
-
-        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
-        {
-            ViewState["Date"] = Calendar1.SelectedDate;
         }
     }
     [Serializable]
